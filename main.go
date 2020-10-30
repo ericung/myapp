@@ -25,11 +25,7 @@ func main() {
 			"Foo": time.Now(),
 		})
 	})
-	r.GET("/bar", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "/views/bar.tmpl", gin.H{
-			"Bar": "World",
-		})
-	})
+
 	r.Run("localhost:9000")
 }
 

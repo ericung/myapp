@@ -22,6 +22,12 @@ go get github.com/jessevdk/go-assets-builder
 go-assets-builder html -o assets.go
 ```
 
+### Quick Run
+
+```
+go run main.go assets.go
+```
+
 ### Build the server
 
 ```
