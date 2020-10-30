@@ -17,13 +17,16 @@ func main() {
 		panic(err)
 	}
 	r.SetHTMLTemplate(t)
+	r.Static("/wwwroot/css", "./wwwroot/css")
+	r.Static("/wwwroot/js", "./wwwroot/js")
+
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "/html/index.tmpl", gin.H{
-			"Foo": time.Date(2017, 07, 01, 0, 0, 0, 0, time.UTC),
+		c.HTML(http.StatusOK, "/views/index.tmpl", gin.H{
+			"Foo": time.Now(),
 		})
 	})
 	r.GET("/bar", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "/html/bar.tmpl", gin.H{
+		c.HTML(http.StatusOK, "/views/bar.tmpl", gin.H{
 			"Bar": "World",
 		})
 	})
