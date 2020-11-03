@@ -19,6 +19,10 @@ type User struct {
 	email string
 }
 
+type ExampleSelect struct {
+	Title string
+}
+
 func main() {
 	r := gin.New()
 	t, err := loadTemplate()
@@ -36,13 +40,12 @@ func main() {
 		}
 		dsn := string(content)
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-		fmt.Println("Connecting")
 		if err != nil {
-			fmt.Println("Error")
-			return
+			fmt.Println(err)
 		}
 
 		/*
+			// ADD TO DATABASE EXAMPLE
 			user := map[string]interface{}{}
 			user["id"] = 12
 			user["name"] = "bill"
@@ -53,8 +56,14 @@ func main() {
 		result := map[string]interface{}{}
 		db.Table("user").Take(&result)
 
+		data := []ExampleSelect{
+			{Title: "Bullet 1"},
+			{Title: "Bullet 2"},
+		}
+
 		c.HTML(http.StatusOK, "/views/index.tmpl", gin.H{
-			"Foo": result["id"],
+			"Foo":     result["name"],
+			"Example": data,
 		})
 	})
 

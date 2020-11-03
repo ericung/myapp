@@ -5,20 +5,19 @@
 <body>
   <div>
     <div>
-      <p>MOUSE</p>
+      <p>MOUSE {{.Foo}}</p>
     </div>
     <div>
       <form action="/gene" method="GET">
-        <select>
-          <option>1</option>
-          <option>2</option>
+        <select id="select">
+          {{range .Example}}
+            <option>{{.Title}}</option>
+          {{end}}
         </select><br/><br/>
         <input type="text" id="input01" >
+        <input type="submit" value="Submit">
       </form>
     </div>
-  </div>
-  <div>
-    {{.Foo}}
   </div>
   <script src="/wwwroot/js/bootstrap.bundle.min.js"></script>
 </body>
