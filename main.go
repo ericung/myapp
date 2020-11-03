@@ -13,12 +13,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type User struct {
-	id    int
-	name  string
-	email string
-}
-
 type ExampleSelect struct {
 	Title string
 }
@@ -34,6 +28,7 @@ func main() {
 	r.Static("/wwwroot/js", "./wwwroot/js")
 
 	r.GET("/", func(c *gin.Context) {
+		// CONNECT TO DATABASE WITH SPECIAL VALUES EXAMPLE
 		content, err := ioutil.ReadFile("database.config")
 		if err != nil {
 			fmt.Println(err)
@@ -53,16 +48,29 @@ func main() {
 			db.Table("user").Create(&user)
 		*/
 
+		// READ FROM DATABASE EXAMPLE
 		result := map[string]interface{}{}
 		db.Table("user").Take(&result)
+		var user User
+		if err != nil {
+			fmt.Println(err)
+		}
+		user.id = result["id"].(int32)
+		user.name = result["name"].(string)
+		user.email = result["email"].(string)
 
+		// EXAMPLE SELECT OPTIONS
 		data := []ExampleSelect{
 			{Title: "Bullet 1"},
 			{Title: "Bullet 2"},
 		}
 
+		fmt.Println(result)
+
 		c.HTML(http.StatusOK, "/views/index.tmpl", gin.H{
-			"Foo":     result["name"],
+			"Id":      user.id,
+			"Name":    user.name,
+			"Email":   user.email,
 			"Example": data,
 		})
 	})
