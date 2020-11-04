@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"strings"
 
+	"myapp/models"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 
@@ -51,13 +53,17 @@ func main() {
 		// READ FROM DATABASE EXAMPLE
 		result := map[string]interface{}{}
 		db.Table("user").Take(&result)
-		var user User
 		if err != nil {
 			fmt.Println(err)
 		}
-		user.id = result["id"].(int32)
-		user.name = result["name"].(string)
-		user.email = result["email"].(string)
+
+		var user models.User
+
+		user = user.User(
+			result["id"].(int32),
+			result["name"].(string),
+			result["email"].(string),
+		)
 
 		// EXAMPLE SELECT OPTIONS
 		data := []ExampleSelect{
@@ -65,12 +71,10 @@ func main() {
 			{Title: "Bullet 2"},
 		}
 
-		fmt.Println(result)
-
 		c.HTML(http.StatusOK, "/views/index.tmpl", gin.H{
-			"Id":      user.id,
-			"Name":    user.name,
-			"Email":   user.email,
+			"Id":      user.GetId(),
+			"Name":    user.GetName(),
+			"Email":   user.GetEmail(),
 			"Example": data,
 		})
 	})
