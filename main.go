@@ -71,6 +71,12 @@ func main() {
 			{Title: "Bullet 2"},
 		}
 
+		// READ FROM DATABASE EXAMPLE MULTIPLE ITEMS
+		var results []map[string]interface{}
+		db.Table("user").Find(&results)
+
+		fmt.Println(results[0])
+
 		c.HTML(http.StatusOK, "/views/index.tmpl", gin.H{
 			"Id":      user.GetId(),
 			"Name":    user.GetName(),
